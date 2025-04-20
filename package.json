@@ -1,0 +1,16 @@
+{
+  "name": "insta-bio-updater",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Leandro Cotti",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "instagram-private-api": "^1.46.1"
+  }
+}
