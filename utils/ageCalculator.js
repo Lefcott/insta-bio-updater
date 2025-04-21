@@ -8,29 +8,47 @@ module.exports = {
     let days = now.getDate() - birthDate.getDate();
     let hours = now.getHours() - birthDate.getHours();
 
-    if (
+    const reachedHour = now.getMinutes() >= birthDate.getMinutes();
+    const reachedDay = !(
+      now.getHours() < birthDate.getHours() ||
+      (now.getHours() === birthDate.getHours() && !reachedHour)
+    );
+    const reachedMonth = !(
+      now.getDate() < birthDate.getDate() ||
+      (now.getDate() === birthDate.getDate() && !reachedDay)
+    );
+    const reachedYear = !(
       now.getMonth() < birthDate.getMonth() ||
-      (now.getMonth() === birthDate.getMonth() &&
-        now.getDate() < birthDate.getDate())
-    ) {
+      (now.getMonth() === birthDate.getMonth() && !reachedMonth)
+    );
+
+    if (!reachedYear) {
       years--;
-      months += 12;
+    }
+
+    if (!reachedMonth) {
+      months--;
+    }
+
+    if (!reachedDay) {
+      days--;
+    }
+
+    if (!reachedHour) {
+      hours--;
+    }
+
+    if (hours < 0) {
+      hours += 24;
     }
 
     if (days < 0) {
       const previousMonth = new Date(now.getFullYear(), now.getMonth(), 0);
       days += previousMonth.getDate();
-      months--;
     }
 
-    if (hours < 0) {
-      hours += 24;
-      days--;
-      if (days < 0) {
-        const previousMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-        days += previousMonth.getDate();
-        months--;
-      }
+    if (months < 0) {
+      months += 12;
     }
 
     return { years, months, days, hours };
