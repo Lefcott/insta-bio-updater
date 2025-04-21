@@ -6,19 +6,25 @@ const PASSWORD = process.env.IG_PASSWORD;
 
 ig.state.generateDevice(USERNAME);
 
+let loggedIn = false;
+
 module.exports = {
   updateBio: async (newBio) => {
-    console.log("pre log in");
-    await ig.simulate.preLoginFlow();
-    console.log("logging in");
-    await ig.account.login(USERNAME, PASSWORD);
-    console.log("logged in");
+    if (!loggedIn) {
+      console.log("pre log in");
+      await ig.simulate.preLoginFlow();
+      console.log("logging in");
+      await ig.account.login(USERNAME, PASSWORD);
+      console.log("logged in");
 
-    process.nextTick(
-      async () => await ig.simulate.postLoginFlow().catch(console.error)
-    );
+      process.nextTick(
+        async () => await ig.simulate.postLoginFlow().catch(console.error)
+      );
+      loggedIn = true;
+    }
 
     try {
+      console.log("updating bio");
       await ig.account.setBiography(newBio);
     } catch (error) {
       console.log(error);
