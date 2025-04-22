@@ -4,6 +4,8 @@ const ageCalculator = require("./utils/ageCalculator");
 const app = express();
 const port = process.env.PORT || 3000;
 
+let currentBio = "";
+
 app.get("/update-bio", async (req, res) => {
   if (req.query.token !== process.env.TOKEN) {
     return res.status(401).send("Unauthorized");
@@ -23,6 +25,12 @@ app.get("/update-bio", async (req, res) => {
 💻 Dev (en mi máquina funciona)
 🎸 Guitarrista en @_acidamente
 🏓`;
+
+  if (newBio === currentBio) {
+    return res.send("");
+  }
+
+  currentBio = newBio;
 
   await bioUpdater.updateBio(newBio);
 
