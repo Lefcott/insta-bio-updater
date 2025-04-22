@@ -10,6 +10,7 @@ app.get("/update-bio", async (req, res) => {
   if (req.query.token !== process.env.TOKEN) {
     return res.status(401).send("Unauthorized");
   }
+  console.log("run update-bio");
 
   const { years, months, days, hours } = ageCalculator.calculateAge();
 
