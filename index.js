@@ -13,13 +13,24 @@ app.get("/update-bio", async (req, res) => {
 
   const { years, months, days, hours } = ageCalculator.calculateAge();
 
+  const daysSeparator = !hours ? " y" : ",";
+  const monthsSeparator = !days && !hours ? " y" : ",";
+
   const monthsText = !months
     ? ""
     : months === 1
-    ? ", 1 mes"
-    : `, ${months} meses`;
-  const daysText = !days ? "" : days === 1 ? ", 1 día" : `, ${days} días`;
-  const hoursText = !hours ? "" : hours === 1 ? ", 1 hora" : `, ${hours} horas`;
+    ? `${monthsSeparator} 1 mes`
+    : `${monthsSeparator} ${months} meses`;
+  const daysText = !days
+    ? ""
+    : days === 1
+    ? `${daysSeparator} 1 día`
+    : `${daysSeparator} ${days} días`;
+  const hoursText = !hours
+    ? ""
+    : hours === 1
+    ? " y 1 hora"
+    : ` y ${hours} horas`;
 
   const newBio = `🇦🇷 ${years} años${monthsText}${daysText}${hoursText}
 💻 Dev (en mi máquina funciona)
